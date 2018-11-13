@@ -2,10 +2,10 @@ const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 module.exports = mongoose.connect('mongodb://localhost/leftlane')
 
-mongoose.Error.messages.general.required = "O atributo '{PATH}' È obrigatÛrio."
+mongoose.Error.messages.general.required = "O atributo '{PATH}' √© obrigat√≥rio."
 mongoose.Error.messages.Number.min =
-    "O '{VALUE}' informado È menor que o limite mÌnimo de '{MIN}'."
+    "O '{VALUE}' informado √© menor que o limite m√≠nimo de '{MIN}'."
 mongoose.Error.messages.Number.max =
-    "O '{VALUE}' informado È maior que o limite m·ximo de '{MAX}'."
+    "O '{VALUE}' informado √© maior que o limite m√°ximo de '{MAX}'."
 mongoose.Error.messages.String.enum =
-    "'{VALUE}' n„o È v·lido para o atributo '{PATH}'."
+    "'{VALUE}' n√£o √© v√°lido para o atributo '{PATH}'."
