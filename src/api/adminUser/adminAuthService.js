@@ -20,17 +20,15 @@ const sendErrorsFromDB = (res, dbErrors) => {
 
 //Método de login
 const login = (req, res, next) => {
-    //const email = req.body.email || ''
     const email = req.body.email || ''
     const password = req.body.password || ''
 
-    //res.status(400).send({ errors: [email + " -- "+ password] })
-        
     AdminUser.findOne({ email }, (err, user) => {
         if (err) {
             return sendErrorsFromDB(res, err)
-        } else if (user && bcrypt.compareSync(password, user.password)) {
         //} else if (user ) {    
+        } else if (user && bcrypt.compareSync(password, user.password)) {
+        
             const token = jwt.sign(user, env.authSecret, {
                 expiresIn: "7 days"
             })
@@ -40,7 +38,7 @@ const login = (req, res, next) => {
             return res.status(400).send({ errors: ['Usuário/Senha inválidos'] })
         }
     })
-    
+
 }
 
 //Validação do token
@@ -91,13 +89,43 @@ const signup = (req, res, next) => {
                 if (err) {
                     return sendErrorsFromDB(res, err)
                 } else {
-                    //login(req, res, next)
+                    return res.status(200).send({ newUser })
                 }
             })
         }
     })
 }
 
-module.exports = { login, signup, validateToken }
+const change = (req, res, next) => {
+
+    const name = req.body.user.name || ''
+    const email = req.body.user.email || ''
+    const password = req.body.user.password || ''
+
+    //Verifica se a senha confere com a confirmação.
+    const salt = bcrypt.genSaltSync()
+    const passwordHash = bcrypt.hashSync(password, salt)
+
+    //Verifica se o usuário já existe.
+    AdminUser.findOne({ email }, (err, user) => {
+        if (err) {
+            return sendErrorsFromDB(res, err)
+        } else if (user) {
+            user.name = name
+            user.password = passwordHash
+            
+            user.save(err => {
+                if (err) {
+                    return sendErrorsFromDB(res, err)
+                } else {
+                    return res.status(200).send({ user })
+                }
+            })
+        }
+    })
+}
+
+
+module.exports = { login, signup, validateToken, change }
 
 

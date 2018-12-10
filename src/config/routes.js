@@ -38,8 +38,8 @@ module.exports = function(server) {
     State.register(protectedApi, '/states')
     
     // Routes to City entity
-    const City = require('../api/city/cityService')
-    City.register(protectedApi, '/cities')
+    const Region = require('../api/region/regionService')
+    Region.register(protectedApi, '/regions')
 
     // Routes to adminUser entity
     const AdminUser = require('../api/adminUser/adminUserService')
@@ -56,6 +56,7 @@ module.exports = function(server) {
     openApi.post('/login', AuthService.login)
     openApi.post('/signup', AuthService.signup)
     openApi.post('/validateToken', AuthService.validateToken)
+    openApi.put('/change', AuthService.change)
  
 
 }
